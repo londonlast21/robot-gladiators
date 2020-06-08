@@ -13,8 +13,8 @@ var fight = function() {
     window.alert("Welcome to Robot Gladiators!");
 
 var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?");
-
-
+//up to here correct
+if (promptFight === "fight" || promptFight === "FIGHT") {
 
 //subtract the value of 'playerAttack' from the value of 'enemyHealth'
 enemyHealth = enemyHealth - playerAttack;
@@ -52,6 +52,11 @@ else {
     window.alert(playerName + " still has " + playerHealth + " health left.");
 }
 
+} else if (promptFight === "skip" || promptFight === "SKIP") {
+    window.alert(playerName + " has chosen to skip the fight!");
+} else {
+    window.alert("You need to pick a valid option. Try again!");
+}
 
 }
 
