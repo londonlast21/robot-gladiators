@@ -9,7 +9,6 @@ var enemyName = "Roborto";
 var enemyHealth = 50;
 var enemyAttack = 12;
 
-
 var fight = function() {
     //Alert users that they are starting the round
     window.alert("Welcome to Robot Gladiators!");
@@ -55,7 +54,21 @@ else {
 }
 
 } else if (promptFight === "skip" || promptFight === "SKIP") {
-    window.alert(playerName + " has chosen to skip the fight!");
+    //confirm user wants to skip
+    var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+    //if yes (true), leave fight
+    if (confirmSkip) {
+        window.alert(playerName + " has decided to skip this fight. Goodbye!");
+        //subtract money from playerMoney for skipping
+        playerMoney = playerMoney - 2;
+    }
+    //if no (false), ask question again by running fight() again
+    else {
+        fight();
+    }
+  
+   
+    
 } else {
     window.alert("You need to pick a valid option. Try again!");
 }
