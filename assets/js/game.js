@@ -222,7 +222,7 @@ var endGame = function() {
             //call shop() again to force player to pick valid option
             shop();
             break;
-        
+    
         
     
      }
