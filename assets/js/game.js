@@ -31,7 +31,7 @@ var fight = function(enemyName) {
         if (confirmSkip) {
             window.alert(playerName + " has decided to skip this fight. Goodbye!");
             //subtract money from playerMoney for skipping
-            playerMoney = Math.max(0, playerMoney - 10);
+            playerMoney = playerMoney - 10;
             console.log("playerMoney", playerMoney);
          break;
         }
@@ -39,10 +39,8 @@ var fight = function(enemyName) {
 
 
 if (promptFight === "fight" || promptFight === "FIGHT") {
-//generate random damage value based on player's attack power
-    var damage = randomNumber(playerAttack - 3, playerAttack);
-
-    enemyHealth = Math.max(0, enemyHealth - damage);
+//subtract the value of 'playerAttack' from the value of 'enemyHealth'
+    enemyHealth = enemyHealth - playerAttack;
     console.log(
     playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
     );
@@ -61,9 +59,8 @@ if (promptFight === "fight" || promptFight === "FIGHT") {
     window.alert(enemyName + " still has " + enemyHealth + " health left.");
   }
 
-    var damage = randomNumber(enemyAttack - 3, enemyAttack);
-
-    playerHealth = Math.max(0, playerHealth - damage);
+    //subtract the value of 'enemyAttack' from the value of 'playerHealth' and use that result to update the value in the 'playerHealth' variable
+    playerHealth = playerHealth - enemyAttack;
     console.log(
       enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
     );
@@ -102,9 +99,20 @@ var startGame = function () {
             var pickedEnemyName = enemyNames[i];
 
             //reset enemyHealth before starting new fight
-            enemyHealth = randomNumber(40, 60);
+            enemyHealth = 50;
+
             //pass the pickedEnemyName variables value into the fight function
             fight(pickedEnemyName);
+
+            if (playerHealth > 0 && i < enemyNames.length - 1) {
+                //ask if user wants to shop
+                var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+                
+                //if yes
+                if (storeConfirm) {
+                    shop();
+                }
+            }
         }
     }
     //after loop ends, player is either out of health or enemies so run endgame
@@ -133,14 +141,55 @@ var endGame = function() {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
     }
 }
- 
-//function to generate a random numeric value
-var randomNumber = function(min, max) {
-    var value = Math.floor(Math.random() * (max - min + 1) + min);
+ var shop = function() {
+     //ask the player what they'd like to do
+     var shopOptionPrompt = window.prompt(
+     "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+     );
+     //use switch to carry out prompt
+     switch (shopOptionPrompt) {
+        case "refill":
+          if (playerMoney >= 7) {
+             window.alert("Refilling player's health by 20 for $7.");
 
-    return value;
-}
+             //increase health and decrease money
+             playerHealth = playerHealth + 20;
+             playerMoney = playerMoney - 7;
+          }
+          else {
+              window.alert("You don't have enough money!");
+          }
 
+             break;
+
+        case "upgrade":
+          if (playerMoney >= 7) {
+            window.alert("Upgrading player's attack by 6 for $7.");
+
+            //increase playerAttack and decrease money
+            playerAttack = playerAttack + 6;
+            playerMoney = playerMoney - 7;
+          }
+          else {
+              window.alert("You don't have enough")
+          }
+            break;
+        case "leave":
+            window.alert("Leaving the store.");
+
+            //do nothing, so function ends
+            break;
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+
+            //call shop() again to force player to pick valid option
+            shop();
+            break;
+        
+        
+    
+     }
+        
+ }
 //start the game when the page loads
-
 startGame();
